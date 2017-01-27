@@ -8,14 +8,17 @@ class Campo
 {
 private:
 	unsigned short int numero;
-	static int numCampi;
+    static double prezzoCampo;
 public:
-	Campo(int n =1);
+    Campo(unsigned int n =1);
 	int getNumero() const;
-	static int getNumCampi();
+    static double noleggioCampo();
 	bool operator<(const Campo&) const;
 	bool operator>(const Campo&) const;
 	bool operator==(const Campo&) const;
+    bool operator!=(const Campo&) const;
+    Campo operator+(int);
+    Campo& operator--();
 };
 
 #endif // CAMPO_H

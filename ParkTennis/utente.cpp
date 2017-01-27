@@ -1,8 +1,9 @@
 #include "utente.h"
 
-Utente::Utente(Qstring u, Qstring p=):Username(u), Password(p),az(new azioni){}
+Utente::Utente(QString u, QString p):Username(u), Password(p){}
 
-Utente::getUsername() const {return Username;}
+Utente::~Utente(){}
 
-Utente::getPassword() const {return Password;}
+QString Utente::getUsername() const {return Username;}
 
+QString Utente::getPassword() const {return Password;}

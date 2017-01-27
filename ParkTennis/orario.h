@@ -9,9 +9,8 @@ class orario
 private:
     unsigned short int ora;
 public:
-    orario(int o);
+    orario(int o=0);
     int getOra() const;
-    bool operator==(const orario& o) const;
     bool operator> (const orario& o) const;
     bool operator>= (const orario& o) const;
     bool operator< (const orario& o) const;

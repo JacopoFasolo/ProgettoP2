@@ -14,9 +14,29 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    oraditennis.cpp \
+    partita.cpp \
+    lezione.cpp \
+    calendariogiornaliero.cpp \
+    admin.cpp \
+    campo.cpp \
+    giocatore.cpp \
+    iscritti.cpp \
+    maestro.cpp \
+    orario.cpp \
     utente.cpp
 
 HEADERS  += mainwindow.h \
+    oraditennis.h \
+    partita.h \
+    lezione.h \
+    calendariogiornaliero.h \
+    admin.h \
+    campo.h \
+    giocatore.h \
+    iscritti.h \
+    maestro.h \
+    orario.h \
     utente.h
 
 FORMS    += mainwindow.ui

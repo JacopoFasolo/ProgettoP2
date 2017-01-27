@@ -1,23 +1,21 @@
 #include "campo.h"
 
-Campo::Campo(int n): numero(n)
-{
-	if(n>numCampi)
-		numero=numCampi;
-	if(numero==0)
-		++numero;
-}
+Campo::Campo(unsigned int n): numero(n){} //conversione im
 
-int Campo::numCampi=12;	
+double Campo::prezzoCampo=5.00;
+
+double Campo::noleggioCampo(){return Campo::prezzoCampo;}
 
 int Campo::getNumero() const {return numero;}
-
-void Campo::setNumero(int n){numero=n;}
-
-int Campo::getNumCampi() {return numCampi;}
 
 bool Campo::operator<(const Campo& c) const {return numero<c.numero;}
 
 bool Campo::operator>(const Campo& c) const {return numero>c.numero;}
 
 bool Campo::operator==(const Campo& c) const {return numero==c.numero;}
+
+bool Campo::operator!=(const Campo& c) const {return numero!=c.numero;}
+
+Campo& Campo::operator--() {numero--;return *this;}
+
+Campo Campo::operator+(int i) {return Campo(numero+i);}
