@@ -20,18 +20,12 @@ void Iscritti::iscriviMaestro(QString& u,QString& p){
 }
 
 void Iscritti::eliminaUtente(Utente* u){
-    if(u){  //u esiste
+    if(u){
         if(dynamic_cast<Admin*>(u))
             throw QString("Non è possible eliminare Admin");
         bool eliminato=false;
         for(list<Utente*>::iterator it=l.begin();it!=l.end() && !eliminato;++it){
             if((*it)->getUsername()==u->getUsername()){
-                /*if(dynamic_cast<Maestro*>(*it)){
-                    if(contaMaestri()==1)
-                        (*it)->eliminaTutteLezioni();                                   //funzione per eliminare tutte le renotazioni dei maestri
-                }
-                else
-                    (*it)->eliminaTuttePartite((*it)->getUsername());   */                // funzione per eliminare tutte le partite di un Giocatore
                 delete (*it);
                 l.erase(it);
                 eliminato=true;

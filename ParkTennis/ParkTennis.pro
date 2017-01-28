@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     iscritti.cpp \
     maestro.cpp \
     orario.cpp \
-    utente.cpp
+    utente.cpp \
+    circolotennistico.cpp
 
 HEADERS  += mainwindow.h \
     oraditennis.h \
@@ -37,6 +38,7 @@ HEADERS  += mainwindow.h \
     iscritti.h \
     maestro.h \
     orario.h \
-    utente.h
+    utente.h \
+    circolotennistico.h
 
 FORMS    += mainwindow.ui

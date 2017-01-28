@@ -25,13 +25,15 @@ private:
     void scalaSuccessive(OradiTennis*);
     void clear();
 public:
-    CalendarioGiornaliero();
     static orario getApertura();
     static orario getUltimaOra();
     static int getNumCampi();
     Campo primoCampoDisponibile(orario o) const;
     bool nessunaPrenotazione() const;
     void prenotaOra(Utente*, orario);
+    void eliminaPrenotazione(OradiTennis*);
+    void eliminaPartiteGiocatore(Utente*);
+    void eliminaTutteLezioni();
     int contaPartite() const;
     int contaLezioni() const;
     double guadagnoGiornaliero() const;

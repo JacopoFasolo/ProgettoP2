@@ -65,7 +65,7 @@ void CalendarioGiornaliero::prenotaOra(Utente* u, orario o) {
         temp=new Lezione(static_cast<Maestro*>(u),c,o);
     if(temp){
         list<OradiTennis*>::iterator cur=l.begin();
-        if(nessunaPrenotazione() || (*cur)->getOrario()>o){ //se la lista è vuota la 1a condizione è vera e la 2a non viene controllata, così non avro segmentation fault;
+        if(nessunaPrenotazione() || (*cur)->getOrario()>o){ //se la lista è vuota la 1a condizione è vera e la 2a non viene controllata, così non avro segmentation fault :)
             l.push_front(temp);
             return;
         }
@@ -86,6 +86,56 @@ void CalendarioGiornaliero::prenotaOra(Utente* u, orario o) {
         }
     }
     else throw QString("Solo Giocatori o Maestri possono prenotare");
+}
+
+void CalendarioGiornaliero::scalaSuccessive(OradiTennis* o) {
+    if(o){
+        list<OradiTennis*>::iterator it=l.begin();
+        bool trovato=true;
+        for(;it!=l.end();++it){
+            if((*it)==o)
+                trovato=true;
+            if(trovato && (*it)->getOrario()==o->getOrario() && *it!=o)
+                (*it)->scalaCampo();
+            if(trovato && (*it)->getOrario()==o->getOrario())
+                trovato=false;
+        }
+    }
+}
+
+void CalendarioGiornaliero::eliminaPrenotazione(OradiTennis* o){
+    if(o){
+        bool eliminato=false;
+        list<OradiTennis*>::iterator it=l.begin();
+        for(;it!=l.end() && !eliminato;++it){
+            if(*it==o){
+                scalaSuccessive(*it);
+                delete*it;
+                l.erase(it);
+                eliminato=false;
+            }
+        }
+    }
+}
+
+void CalendarioGiornaliero::eliminaPartiteGiocatore(Utente* u) {
+    if(u){
+        list<OradiTennis*>::iterator it=l.begin();
+        for(;it!=l.end();++it){
+            if((*it)->getUtente()->getUsername()==u->getUsername()){
+                eliminaPrenotazione(*it);
+            }
+        }
+    }
+}
+
+void CalendarioGiornaliero::eliminaTutteLezioni() {
+    list<OradiTennis*>::iterator it=l.begin();
+    for(;it!=l.end();++it){
+        if(dynamic_cast<Lezione*>(*it)){
+
+        }
+    }
 }
 
 int CalendarioGiornaliero::contaPartite() const {
@@ -118,5 +168,10 @@ double CalendarioGiornaliero::guadagnoGiornaliero() const {
 }
 
 void CalendarioGiornaliero::clear(){
-    l.clear();
+    for(list<OradiTennis*>::iterator it=l.begin();it!=l.end();++it){
+        delete *it;
+        it=l.erase(it);
+        --it;
+    }
+
 }

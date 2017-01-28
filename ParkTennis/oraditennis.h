@@ -10,6 +10,7 @@ class Admin;
 
 class OradiTennis
 {
+    friend class CalendarioGiornaliero;
 private:
     Utente* user;
     Campo c;
