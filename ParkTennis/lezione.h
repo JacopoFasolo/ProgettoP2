@@ -11,7 +11,7 @@ public:
     Lezione(Utente*, Campo =Campo(), orario =orario());
     static double getQuotaMaestro();
     virtual double prezzo() const;
-    ~Lezione(){}
+    void setMaestro(Utente*);
 };
 
 #endif // LEZIONE_H

@@ -12,13 +12,17 @@ orario CalendarioGiornaliero::getUltimaOra(){return ultimaOraPrenotabile;}
 
 int CalendarioGiornaliero::getNumCampi(){return nCampi;}
 
+CalendarioGiornaliero::~CalendarioGiornaliero(){
+    clear();
+}
+
 bool CalendarioGiornaliero::nessunaPrenotazione() const {
     return l.begin()==l.end();
 }
 
 Campo CalendarioGiornaliero::primoCampoDisponibile(orario o) const {
     list<OradiTennis*>::const_iterator cur=l.begin();
-    if(nessunaPrenotazione() || (*cur)->getOrario()>o) //se la lista è vuota la 1a condizione è vera e la 2a non viene controllata, così non avro segmentation fault;
+    if(nessunaPrenotazione() || (*cur)->getOrario()>o) //se la lista è vuota la 1a condizione è vera e la 2a non viene controllata, così non avro segmentation fault
         return Campo();
     else{
         list<OradiTennis*>::const_iterator next=l.begin();
@@ -65,7 +69,7 @@ void CalendarioGiornaliero::prenotaOra(Utente* u, orario o) {
         temp=new Lezione(static_cast<Maestro*>(u),c,o);
     if(temp){
         list<OradiTennis*>::iterator cur=l.begin();
-        if(nessunaPrenotazione() || (*cur)->getOrario()>o){ //se la lista è vuota la 1a condizione è vera e la 2a non viene controllata, così non avro segmentation fault :)
+        if(nessunaPrenotazione() || (*cur)->getOrario()>o){
             l.push_front(temp);
             return;
         }
@@ -85,7 +89,7 @@ void CalendarioGiornaliero::prenotaOra(Utente* u, orario o) {
             l.push_back(temp);
         }
     }
-    else throw QString("Solo Giocatori o Maestri possono prenotare");
+    else throw QString("Solo Giocatori o Maestri possono prenotare"); //o eventualmente altri sottotipi di Utente successivamente definiti
 }
 
 void CalendarioGiornaliero::scalaSuccessive(OradiTennis* o) {
@@ -122,7 +126,7 @@ void CalendarioGiornaliero::eliminaPartiteGiocatore(Utente* u) {
     if(u){
         list<OradiTennis*>::iterator it=l.begin();
         for(;it!=l.end();++it){
-            if((*it)->getUtente()->getUsername()==u->getUsername()){
+            if(dynamic_cast<Giocatore*>((*it)->getUtente()) && (*it)->getUtente()->getUsername()==u->getUsername()){
                 eliminaPrenotazione(*it);
             }
         }
@@ -133,7 +137,9 @@ void CalendarioGiornaliero::eliminaTutteLezioni() {
     list<OradiTennis*>::iterator it=l.begin();
     for(;it!=l.end();++it){
         if(dynamic_cast<Lezione*>(*it)){
-
+            delete *it;
+            it=l.erase(it);
+            --it;
         }
     }
 }
@@ -173,5 +179,4 @@ void CalendarioGiornaliero::clear(){
         it=l.erase(it);
         --it;
     }
-
 }

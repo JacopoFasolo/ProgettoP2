@@ -10,7 +10,7 @@ class CircoloTennistico
 public:
     CircoloTennistico();
     CalendarioGiornaliero c;
-    Iscritti i;
+    static Iscritti i;
     Utente* loggedIn;
     void tryLogIn(QString u, QString p);
 };

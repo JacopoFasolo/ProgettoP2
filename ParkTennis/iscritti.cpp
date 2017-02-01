@@ -2,6 +2,17 @@
 
 Iscritti::Iscritti(){l.push_back(new Admin());}
 
+void Iscritti::clear(){
+    for(list<Utente*>::iterator it=l.begin();it!=l.end();++it)
+        delete *it;
+    l.clear();
+}
+
+Iscritti::~Iscritti(){
+    clear();
+}
+
+
 void Iscritti::iscrivi(Utente* u){
     if(u && !trovaUtente(u->getUsername()) && !dynamic_cast<Admin*>(u))
         l.push_back(u);
@@ -32,14 +43,23 @@ void Iscritti::eliminaUtente(Utente* u){
             }
         }
         if(!eliminato)
-            throw QString("utente non iscritto");
+            throw QString("Utente non Presente");
     }
+}
+
+Utente* Iscritti::trovaMaestroDiverso(Utente* u) const {
+    for(list<Utente*>::const_iterator it=l.begin();it!=l.end();++it){
+        if(dynamic_cast<Maestro*>(const_cast<Utente*>(*it)) && *it!=u)
+            return *it;
+    }
+    return 0;
 }
 
 
 void Iscritti::eliminaUtente(QString ut){
     Utente* u=trovaUtente(ut);
     eliminaUtente(u);
+    //la
 }
 
 
@@ -47,11 +67,9 @@ void Iscritti::eliminaUtente(QString ut){
 
 
 Utente* Iscritti::trovaUtente(QString u) const{  //c++11
-	bool trovato=false;
-    for(list<Utente*>::const_iterator it=l.begin();it!=l.end() && !trovato;++it){
+    for(list<Utente*>::const_iterator it=l.begin();it!=l.end();++it){
         if((*it)->getUsername()==u){
 			return *it;
-			trovato=true;
 		}
 	}
     return 0;

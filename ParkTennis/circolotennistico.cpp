@@ -2,15 +2,15 @@
 
 CircoloTennistico::CircoloTennistico():loggedIn(0){}
 
+Iscritti CircoloTennistico::i=Iscritti();
+
 void CircoloTennistico::tryLogIn(QString u,QString p){
     Utente* ut=i.trovaUtente(u);
-    if(ut->getPassword()==p){
+    if(ut && ut->getPassword()==p){
         loggedIn=ut;
         return;
     }
-    else
-        throw QString("Password Errata");
-    throw QString("Credenziali Errate");
+    throw QString("Errore Autenticazione");
 
 }
 

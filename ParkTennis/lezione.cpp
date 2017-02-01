@@ -7,5 +7,10 @@ double Lezione::quotaMaestro=20.00;
 double Lezione::getQuotaMaestro() {return quotaMaestro;}
 
 double Lezione::prezzo() const {
-    return OradiTennis::prezzo()+quotaMaestro;
+    return (OradiTennis::prezzo()+quotaMaestro);
+}
+
+void Lezione::setMaestro(Utente* u){
+    if(u)
+        user=u;
 }

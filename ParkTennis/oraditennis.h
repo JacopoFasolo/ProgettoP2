@@ -11,7 +11,7 @@ class Admin;
 class OradiTennis
 {
     friend class CalendarioGiornaliero;
-private:
+protected:
     Utente* user;
     Campo c;
     orario o;

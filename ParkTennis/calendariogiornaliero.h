@@ -28,6 +28,7 @@ public:
     static orario getApertura();
     static orario getUltimaOra();
     static int getNumCampi();
+    ~CalendarioGiornaliero();
     Campo primoCampoDisponibile(orario o) const;
     bool nessunaPrenotazione() const;
     void prenotaOra(Utente*, orario);
