@@ -5,9 +5,11 @@
 #include <QString>
 #include <iscritti.h>
 #include <QXmlStreamWriter>
+#include <QXmlStreamReader>
 #include <QFile>
 #include <QDebug>
 #include <QString>
+#include <QDomDocument>
 using namespace std;
 
 class CircoloTennistico
@@ -19,6 +21,8 @@ public:
     static Iscritti i;
     Utente* loggedIn;
     void tryLogIn(QString u, QString p);
+    static Iscritti* loadIscrizioni();
+    CalendarioGiornaliero* loadPrenotazioni();
     void saveIscritti(Iscritti*) const;
     void savePrenotazioni(CalendarioGiornaliero*) const;
     void iscriviGiocatore(QString& ,QString& );

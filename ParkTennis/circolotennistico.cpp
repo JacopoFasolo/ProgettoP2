@@ -1,8 +1,17 @@
 #include "circolotennistico.h"
 
-CircoloTennistico::CircoloTennistico():loggedIn(0){}
+Iscritti* CircoloTennistico::loadIscrizioni(){
 
-Iscritti CircoloTennistico::i=Iscritti();
+}
+
+CalendarioGiornaliero* CircoloTennistico::loadPrenotazioni(){
+
+
+}
+
+Iscritti CircoloTennistico::i=*loadIscrizioni();
+
+CircoloTennistico::CircoloTennistico():loggedIn(0),c(*loadPrenotazioni()){}
 
 void CircoloTennistico::tryLogIn(QString u,QString p){
     Utente* ut=i.trovaUtente(u);
@@ -13,7 +22,7 @@ void CircoloTennistico::tryLogIn(QString u,QString p){
     throw QString("Errore Autenticazione");
 }
 
-void CircoloTennistico::saveIscritti(Iscritti* is) const{
+void CircoloTennistico::saveIscritti(Iscritti* is) const {
     QFile file("iscritti.xml");
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
         qDebug() << "Failed to open the file.";
