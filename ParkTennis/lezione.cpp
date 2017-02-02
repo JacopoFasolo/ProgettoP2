@@ -12,5 +12,5 @@ double Lezione::prezzo() const {
 
 void Lezione::setMaestro(Utente* u){
     if(u)
-        user=u;
+        user=u;  // usato in una situazione di condivisione controllata della memoria, la gestione della memoria viene fatta dalle funzioni chiamanti
 }

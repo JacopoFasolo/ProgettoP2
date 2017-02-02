@@ -23,13 +23,13 @@ private:
     static orario ultimaOraPrenotabile;
     static int nCampi;
     void scalaSuccessive(OradiTennis*);
+    Campo primoCampoDisponibile(orario o) const;
     void clear();
 public:
     static orario getApertura();
     static orario getUltimaOra();
     static int getNumCampi();
     ~CalendarioGiornaliero();
-    Campo primoCampoDisponibile(orario o) const;
     bool nessunaPrenotazione() const;
     void prenotaOra(Utente*, orario);
     void eliminaPrenotazione(OradiTennis*);
@@ -38,6 +38,7 @@ public:
     int contaPartite() const;
     int contaLezioni() const;
     double guadagnoGiornaliero() const;
+    void sostiuisciMaestro(Utente*, Utente*);
 };
 
 #endif // CALENDARIOGIORNALIERO_H

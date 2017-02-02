@@ -55,13 +55,7 @@ Campo CalendarioGiornaliero::primoCampoDisponibile(orario o) const {
 
 void CalendarioGiornaliero::prenotaOra(Utente* u, orario o) {
     Campo c;
-    try{
         c=primoCampoDisponibile(o);
-    }
-    catch(QString x){
-        if(x=="Nessun Campo Disponibile")
-            throw x;
-    }
     OradiTennis* temp=0;
     if(dynamic_cast<Giocatore*>(u))
         temp=new Partita(static_cast<Giocatore*>(u),c,o);
@@ -167,7 +161,7 @@ int CalendarioGiornaliero::contaLezioni() const {
 double CalendarioGiornaliero::guadagnoGiornaliero() const {
     list<OradiTennis*>::const_iterator it=l.begin();
     double temp=0.00;
-    for(;it!=l.end();++it){
+    for(;it!=l.end(); ){
         temp+=(*it)->prezzo();
     }
     return temp;
@@ -178,5 +172,15 @@ void CalendarioGiornaliero::clear(){
         delete *it;
         it=l.erase(it);
         --it;
+    }
+}
+
+void CalendarioGiornaliero::sostiuisciMaestro(Utente * p, Utente * s){
+    if(p && s){
+        for(list<OradiTennis*>::iterator it=l.begin();it!=l.end();++it){
+            Lezione* temp=dynamic_cast<Lezione*>(*it);
+            if((*it)->getUtente()->getUsername()==p->getUsername() && temp)
+                temp->setMaestro(s);
+        }
     }
 }

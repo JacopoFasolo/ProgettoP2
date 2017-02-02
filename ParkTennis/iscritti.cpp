@@ -20,16 +20,6 @@ void Iscritti::iscrivi(Utente* u){
         throw QString("Errore Iscrizione");
 }
 
-void Iscritti::iscriviGiocatore(QString& u,QString& p){
-    if(!trovaUtente(u))
-        iscrivi(new Giocatore(u,p));
-}
-
-void Iscritti::iscriviMaestro(QString& u,QString& p){
-    if(!trovaUtente(u))
-        iscrivi(new Maestro(u,p));
-}
-
 void Iscritti::eliminaUtente(Utente* u){
     if(u){
         if(dynamic_cast<Admin*>(u))
