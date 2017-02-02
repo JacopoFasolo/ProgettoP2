@@ -15,8 +15,8 @@
 using std::list;
 
 
-class CalendarioGiornaliero
-{
+class CalendarioGiornaliero{
+friend class CircoloTennistico;
 private:
     list<OradiTennis*> l;
     static orario apertura;
