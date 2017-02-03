@@ -25,10 +25,12 @@ public:
     CalendarioGiornaliero* loadPrenotazioni();
     void saveIscritti(Iscritti*) const;
     void savePrenotazioni(CalendarioGiornaliero*) const;
-    static void iscriviGiocatore(QString& ,QString& );
-    static void iscriviMaestro(QString& ,QString& );
+    static void iscriviGiocatore(QString ,QString ="12345");
+    static void iscriviMaestro(QString ,QString ="12345");
     //altre iscrivi se vengono aggiunti altri sottotipi di Utente
     void eliminaIscrizione(Utente*); //comportamente diverso in base al tipo di Utente che si vuole disiscrivere
+    void Prenota(Orario);
+    void scorri()const;
 };
 
 #endif // CIRCOLOTENNISTICO_H

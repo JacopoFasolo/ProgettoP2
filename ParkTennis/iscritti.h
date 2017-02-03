@@ -6,6 +6,7 @@
 #include <giocatore.h>
 #include <maestro.h>
 #include <admin.h>
+#include <QDebug>
 using std::list;
 
 class Iscritti{

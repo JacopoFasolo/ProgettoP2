@@ -1,14 +1,14 @@
 #include "calendariogiornaliero.h"
 
-orario CalendarioGiornaliero::apertura=8;
+Orario CalendarioGiornaliero::apertura=8;
 
-orario CalendarioGiornaliero::ultimaOraPrenotabile=23;
+Orario CalendarioGiornaliero::ultimaOraPrenotabile=23;
 
 int CalendarioGiornaliero::nCampi=12;
 
-orario CalendarioGiornaliero::getApertura(){return apertura;}
+Orario CalendarioGiornaliero::getApertura(){return apertura;}
 
-orario CalendarioGiornaliero::getUltimaOra(){return ultimaOraPrenotabile;}
+Orario CalendarioGiornaliero::getUltimaOra(){return ultimaOraPrenotabile;}
 
 int CalendarioGiornaliero::getNumCampi(){return nCampi;}
 
@@ -20,7 +20,9 @@ bool CalendarioGiornaliero::nessunaPrenotazione() const {
     return l.begin()==l.end();
 }
 
-Campo CalendarioGiornaliero::primoCampoDisponibile(orario o) const {
+Campo CalendarioGiornaliero::primoCampoDisponibile(Orario o) const {
+    if(o<apertura || o>ultimaOraPrenotabile)
+        throw QString("Orario non valido");
     list<OradiTennis*>::const_iterator cur=l.begin();
     if(nessunaPrenotazione() || (*cur)->getOrario()>o) //se la lista è vuota la 1a condizione è vera e la 2a non viene controllata, così non avro segmentation fault
         return Campo();
@@ -53,7 +55,7 @@ Campo CalendarioGiornaliero::primoCampoDisponibile(orario o) const {
     }
 }
 
-void CalendarioGiornaliero::prenotaOra(Utente* u, orario o) {
+void CalendarioGiornaliero::prenotaOra(Utente* u, Orario o) {
     Campo c;
         c=primoCampoDisponibile(o);
     OradiTennis* temp=0;
@@ -63,7 +65,7 @@ void CalendarioGiornaliero::prenotaOra(Utente* u, orario o) {
         temp=new Lezione(static_cast<Maestro*>(u),c,o);
     if(temp){
         list<OradiTennis*>::iterator cur=l.begin();
-        if(nessunaPrenotazione() || (*cur)->getOrario()>o){
+        if(nessunaPrenotazione() || (*cur)->getOrario()>o){  //crash a causa di cur->getOrario
             l.push_front(temp);
             return;
         }
@@ -161,7 +163,7 @@ int CalendarioGiornaliero::contaLezioni() const {
 double CalendarioGiornaliero::guadagnoGiornaliero() const {
     list<OradiTennis*>::const_iterator it=l.begin();
     double temp=0.00;
-    for(;it!=l.end(); ){
+    for(;it!=l.end();++it){
         temp+=(*it)->prezzo();
     }
     return temp;

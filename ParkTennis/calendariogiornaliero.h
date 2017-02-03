@@ -12,6 +12,7 @@
 #include <maestro.h>
 #include <admin.h>
 #include <QString>
+#include <QDebug>
 using std::list;
 
 
@@ -19,19 +20,19 @@ class CalendarioGiornaliero{
 friend class CircoloTennistico;
 private:
     list<OradiTennis*> l;
-    static orario apertura;
-    static orario ultimaOraPrenotabile;
+    static Orario apertura;
+    static Orario ultimaOraPrenotabile;
     static int nCampi;
     void scalaSuccessive(OradiTennis*);
-    Campo primoCampoDisponibile(orario o) const;
+    Campo primoCampoDisponibile(Orario o) const;
     void clear();
 public:
-    static orario getApertura();
-    static orario getUltimaOra();
+    static Orario getApertura();
+    static Orario getUltimaOra();
     static int getNumCampi();
     ~CalendarioGiornaliero();
     bool nessunaPrenotazione() const;
-    void prenotaOra(Utente*, orario);
+    void prenotaOra(Utente*, Orario);
     void eliminaPrenotazione(OradiTennis*);
     void eliminaPartiteGiocatore(Utente*);
     void eliminaTutteLezioni();

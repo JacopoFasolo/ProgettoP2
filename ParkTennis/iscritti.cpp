@@ -56,7 +56,7 @@ void Iscritti::eliminaUtente(QString ut){
 
 
 
-Utente* Iscritti::trovaUtente(QString u) const{  //c++11
+Utente* Iscritti::trovaUtente(QString u) const {  //c++11
     for(list<Utente*>::const_iterator it=l.begin();it!=l.end();++it){
         if((*it)->getUsername()==u){
 			return *it;
@@ -77,7 +77,8 @@ list<Utente*> Iscritti::trovaMaestri() const{  //c++11
 int Iscritti::contaMaestri() const{  //c++11
     int count=0;
     for(list<Utente*>::const_iterator it=l.begin();it!=l.end();++it){
-        if(dynamic_cast<const Maestro*>(*it))
+        qDebug()<<(*it)->getUsername();
+        if(dynamic_cast<Maestro*>(*it))
             count++;
     }
     return count;

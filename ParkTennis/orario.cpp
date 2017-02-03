@@ -1,23 +1,23 @@
 #include "orario.h"
 
-orario::orario(int o): ora(o){ora=ora%24;}
+Orario::Orario(int o): ora(o){ora=ora%24;}
 
-int orario::getOra() const {return ora;}
+int Orario::getOra() const {return ora;}
 
-bool orario::operator> (const orario& o) const {return ora>o.ora;}
+bool Orario::operator> (const Orario& o) const {return ora>o.ora;}
 
-bool orario::operator>= (const orario& o) const {return ora>=o.ora;}
+bool Orario::operator>= (const Orario& o) const {return ora>=o.ora;}
 
-bool orario::operator< (const orario& o) const {return ora<o.ora;}
+bool Orario::operator< (const Orario& o) const {return ora<o.ora;}
 
-bool orario::operator<= (const orario& o) const {return ora<=o.ora;}
+bool Orario::operator<= (const Orario& o) const {return ora<=o.ora;}
 
-bool orario::operator== (const orario& o) const {return ora==o.ora;}
+bool Orario::operator== (const Orario& o) const {return ora==o.ora;}
 
-bool orario::operator!= (const orario& o) const {return ora!=o.ora;}
+bool Orario::operator!= (const Orario& o) const {return ora!=o.ora;}
 
-orario orario::operator+ (const orario& o) const {return orario(ora+o.ora);}
+Orario Orario::operator+ (const Orario& o) const {return Orario(ora+o.ora);}
 
-orario& orario::operator++ () {ora+=1; return *this;}
+Orario& Orario::operator++ () {ora+=1; ora=ora%24; return *this;}
 
-orario& orario::operator++ (int) {orario temp=*this; ora+=1; return temp;}
+Orario& Orario::operator++ (int) {Orario temp=*this; ora+=1; ora=ora%24; return temp;}

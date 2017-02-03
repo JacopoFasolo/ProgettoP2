@@ -8,7 +8,7 @@ class Lezione:public OradiTennis
 private:
     static double quotaMaestro;
 public:
-    Lezione(Utente*, Campo =Campo(), orario =orario());
+    Lezione(Utente*, Campo =Campo(), Orario =Orario());
     static double getQuotaMaestro();
     virtual double prezzo() const;
     void setMaestro(Utente*);

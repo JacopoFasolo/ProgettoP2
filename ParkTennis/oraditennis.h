@@ -14,20 +14,20 @@ class OradiTennis
 protected:
     Utente* user;
     Campo c;
-    orario o;
+    Orario o;
     bool luce;
     static double quotaFissa;
     static double quotaLuce;
-    static orario inizioLuce;
+    static Orario inizioLuce;
     void scalaCampo();
 public:
-    OradiTennis(Utente*, Campo =Campo(), orario =orario());
+    OradiTennis(Utente*, Campo =Campo(), Orario =Orario());
     virtual ~OradiTennis()=0;
     static double getQuotaFissa();
     static double getQuotaLuce();
     virtual double prezzo() const;
     Utente* getUtente() const;
-    orario getOrario() const;
+    Orario getOrario() const;
     Campo getCampo() const;
 
 

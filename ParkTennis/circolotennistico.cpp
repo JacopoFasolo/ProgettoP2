@@ -11,7 +11,7 @@ Iscritti* CircoloTennistico::loadIscrizioni(){
         file.close();
     }
     QDomElement root = documento.firstChildElement();
-    QDomNodeList users = root.elementsByTagName("Utente");
+    QDomNodeList users = root.elementsByTagName("Iscritti");
     Iscritti* temp=new Iscritti; //già presente l'admin per costruzioine di default
     for (int i=0; i<users.count(); i++){
         QDomNode nodo = users.at(i);
@@ -46,7 +46,7 @@ CalendarioGiornaliero* CircoloTennistico::loadPrenotazioni(){  // da chiamare do
         QString un=p.attribute("Nominativo");
         Utente* us=CircoloTennistico::i.trovaUtente(un);
         if(us)
-            temp->prenotaOra(us,orario(p.attribute("Orario").toInt()));
+            temp->prenotaOra(us,Orario(p.attribute("Orario").toInt()));
     }
     return temp;
 }
@@ -121,12 +121,12 @@ CircoloTennistico::~CircoloTennistico(){
     //richiama inplicitamente i distruttori ridefiniti di Iscritti e CalendarioGiornaliero
 }
 
-void CircoloTennistico::iscriviGiocatore(QString& u,QString& p){
+void CircoloTennistico::iscriviGiocatore(QString u,QString p){
     if(!i.trovaUtente(u))
         i.iscrivi(new Giocatore(u,p));
 }
 
-void CircoloTennistico::iscriviMaestro(QString& u,QString& p){
+void CircoloTennistico::iscriviMaestro(QString u,QString p){
     if(!i.trovaUtente(u))
         i.iscrivi(new Maestro(u,p));
 }
@@ -135,17 +135,33 @@ void CircoloTennistico::eliminaIscrizione(Utente* u){
     if(u){
         if(dynamic_cast<Admin*>(u))
             throw QString("Admin non eliminabile");
+        if(u==loggedIn)
+            loggedIn=0;
         if(dynamic_cast<Maestro*>(u)){  // un maestro quando si disiscrive lascia le lezioni che aveva a carico ai colleghi maestri ancora iscritti, se è l'ultimo maestro rimanente annullo tutte le lezioni
-            if(i.contaMaestri()==1)
+            if(i.contaMaestri()==1){
                 c.eliminaTutteLezioni();
-            Utente* temp=i.trovaMaestroDiverso(u); //ho almeno 1 maestro a cui affidare le lezioni da coprire
-            c.sostiuisciMaestro(u,temp);
+                qDebug()<<"flag";
+            }
+            else{
+                Utente* temp=i.trovaMaestroDiverso(u); //ho almeno 1 maestro a cui affidare le lezioni da coprire
+                c.sostiuisciMaestro(u,temp);
+            }
             i.eliminaUtente(u);
         }
-        if(dynamic_cast<Giocatore*>(u)){  //un giocatore quando si disiscrive annulla automaticamente le partite che aveva prenotato a suo nome
+        else if(dynamic_cast<Giocatore*>(u)){  //un giocatore quando si disiscrive annulla automaticamente le partite che aveva prenotato a suo nome
             c.eliminaPartiteGiocatore(u);
             i.eliminaUtente(u);
         }
         //altri if per evenuali altri tipi derivati da utente successivamente difiniti
     }
+}
+
+void CircoloTennistico::Prenota(Orario o){
+    c.prenotaOra(loggedIn,o);
+}
+
+void CircoloTennistico::scorri() const {
+    for(list<Utente*>::const_iterator it=i.l.begin();it!=i.l.end();++it)
+        qDebug()<<(*it)->getUsername();
+
 }

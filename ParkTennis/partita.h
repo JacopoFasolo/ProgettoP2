@@ -6,7 +6,7 @@
 
 class Partita: public OradiTennis {
 public:
-    Partita(Utente*, Campo =Campo(), orario =orario());
+    Partita(Utente*, Campo =Campo(), Orario =Orario());
     ~Partita(){};
 };
 

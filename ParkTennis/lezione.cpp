@@ -1,6 +1,6 @@
 #include "lezione.h"
 
-Lezione::Lezione(Utente* ut, Campo c, orario o): OradiTennis(ut,c,o){}
+Lezione::Lezione(Utente* ut, Campo c, Orario o): OradiTennis(ut,c,o){}
 
 double Lezione::quotaMaestro=20.00;
 
