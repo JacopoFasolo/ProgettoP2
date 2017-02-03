@@ -1,12 +1,54 @@
 #include "circolotennistico.h"
 
 Iscritti* CircoloTennistico::loadIscrizioni(){
-
+    QDomDocument documento;
+    QFile file("iscritti.xml");
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        qDebug() << "Failed to open the file for reading.";
+    else{
+        if(!documento.setContent(&file))
+            qDebug() << "Failed to load the file for reading.";
+        file.close();
+    }
+    QDomElement root = documento.firstChildElement();
+    QDomNodeList users = root.elementsByTagName("Utente");
+    Iscritti* temp=new Iscritti; //già presente l'admin per costruzioine di default
+    for (int i=0; i<users.count(); i++){
+        QDomNode nodo = users.at(i);
+        QDomElement utente = nodo.toElement();
+        if (utente.attribute("tipo")!="Admin"){
+            if (utente.attribute("tipo")=="Giocatore")
+                temp->l.push_back(new Giocatore(utente.attribute("username"),utente.attribute("password")));
+            if (utente.attribute("tipo")=="Maestro")
+                temp->l.push_back(new Maestro(utente.attribute("username"),utente.attribute("password")));
+            //altri if in base al tipo
+        }
+    }
+    return temp;
 }
 
-CalendarioGiornaliero* CircoloTennistico::loadPrenotazioni(){
-
-
+CalendarioGiornaliero* CircoloTennistico::loadPrenotazioni(){  // da chiamare dopo che è stata invocata loadIscritti sennò non saranno presenti Utenti iscritti a cui
+    QDomDocument documento;
+    QFile file("prenotazioni.xml");
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        qDebug() << "Failed to open the file for reading.";
+    else{
+        if(!documento.setContent(&file))
+            qDebug() << "Failed to load the file for reading.";
+        file.close();
+    }
+    QDomElement root = documento.firstChildElement();
+    QDomNodeList pren = root.elementsByTagName("Ora");
+    CalendarioGiornaliero* temp=new CalendarioGiornaliero;
+    for (int i=0; i<pren.count(); i++){
+        QDomNode nodo = pren.at(i);
+        QDomElement p = nodo.toElement();
+        QString un=p.attribute("Nominativo");
+        Utente* us=CircoloTennistico::i.trovaUtente(un);
+        if(us)
+            temp->prenotaOra(us,orario(p.attribute("Orario").toInt()));
+    }
+    return temp;
 }
 
 Iscritti CircoloTennistico::i=*loadIscrizioni();
@@ -107,9 +149,3 @@ void CircoloTennistico::eliminaIscrizione(Utente* u){
         //altri if per evenuali altri tipi derivati da utente successivamente difiniti
     }
 }
-
-void CircoloTennistico::aggiungiPrenotazione(Utente* u,orario o){
-    c.prenotaOra(u,o);
-}
-
-
