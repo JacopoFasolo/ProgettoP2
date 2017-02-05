@@ -14,7 +14,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     oraditennis.cpp \
     partita.cpp \
     lezione.cpp \
@@ -26,9 +25,10 @@ SOURCES += main.cpp\
     maestro.cpp \
     orario.cpp \
     utente.cpp \
-    circolotennistico.cpp
+    circolotennistico.cpp \
+    loginwindow.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     oraditennis.h \
     partita.h \
     lezione.h \
@@ -40,6 +40,9 @@ HEADERS  += mainwindow.h \
     maestro.h \
     orario.h \
     utente.h \
-    circolotennistico.h
+    circolotennistico.h \
+    loginwindow.h
 
-FORMS    += mainwindow.ui
+
+FORMS    += \
+    loginwindow.ui

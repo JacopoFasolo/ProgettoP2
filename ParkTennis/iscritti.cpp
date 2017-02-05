@@ -17,7 +17,7 @@ void Iscritti::iscrivi(Utente* u){
     if(u && !trovaUtente(u->getUsername()) && !dynamic_cast<Admin*>(u))
         l.push_back(u);
     else
-        throw QString("Errore Iscrizione");
+        throw QString("Utente gia' Registrato");
 }
 
 void Iscritti::eliminaUtente(Utente* u){

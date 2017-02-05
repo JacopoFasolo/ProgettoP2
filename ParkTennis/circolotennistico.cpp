@@ -11,21 +11,28 @@ Iscritti* CircoloTennistico::loadIscrizioni(){
         file.close();
     }
     QDomElement root = documento.firstChildElement();
-    QDomNodeList users = root.elementsByTagName("Iscritti");
+    QDomNodeList users = root.elementsByTagName("Utente");
     Iscritti* temp=new Iscritti; //già presente l'admin per costruzioine di default
     for (int i=0; i<users.count(); i++){
         QDomNode nodo = users.at(i);
         QDomElement utente = nodo.toElement();
         if (utente.attribute("tipo")!="Admin"){
             if (utente.attribute("tipo")=="Giocatore")
-                temp->l.push_back(new Giocatore(utente.attribute("username"),utente.attribute("password")));
+                temp->iscrivi(new Giocatore(utente.attribute("Username"),utente.attribute("Password")));
             if (utente.attribute("tipo")=="Maestro")
-                temp->l.push_back(new Maestro(utente.attribute("username"),utente.attribute("password")));
+                temp->iscrivi(new Maestro(utente.attribute("Username"),utente.attribute("Password")));
+
             //altri if in base al tipo
+
         }
     }
     return temp;
 }
+
+
+Iscritti* CircoloTennistico::i=loadIscrizioni();
+
+Utente* CircoloTennistico::loggedIn=0;
 
 CalendarioGiornaliero* CircoloTennistico::loadPrenotazioni(){  // da chiamare dopo che è stata invocata loadIscritti sennò non saranno presenti Utenti iscritti a cui
     QDomDocument documento;
@@ -44,19 +51,17 @@ CalendarioGiornaliero* CircoloTennistico::loadPrenotazioni(){  // da chiamare do
         QDomNode nodo = pren.at(i);
         QDomElement p = nodo.toElement();
         QString un=p.attribute("Nominativo");
-        Utente* us=CircoloTennistico::i.trovaUtente(un);
+        Utente* us=CircoloTennistico::i->trovaUtente(un);
         if(us)
             temp->prenotaOra(us,Orario(p.attribute("Orario").toInt()));
     }
     return temp;
 }
 
-Iscritti CircoloTennistico::i=*loadIscrizioni();
-
-CircoloTennistico::CircoloTennistico():loggedIn(0),c(*loadPrenotazioni()){}
+CalendarioGiornaliero* CircoloTennistico::c=loadPrenotazioni();
 
 void CircoloTennistico::tryLogIn(QString u,QString p){
-    Utente* ut=i.trovaUtente(u);
+    Utente* ut=i->trovaUtente(u);
     if(ut && ut->getPassword()==p){
         loggedIn=ut;
         return;
@@ -104,8 +109,8 @@ void CircoloTennistico::savePrenotazioni(CalendarioGiornaliero* cal) const{
         if(dynamic_cast<Lezione*>(*it))
             writer.writeAttribute("tipo","Lezione");
         //da aggiungere eventuali altri sottotipi di OraDiTennis
-        QString o=QString::number((*it)->getCampo().getNumero());
-        QString c=QString::number((*it)->getOrario().getOra());
+        QString c=QString::number((*it)->getCampo().getNumero());
+        QString o=QString::number((*it)->getOrario().getOra());
         writer.writeAttribute("Nominativo",(*it)->getUtente()->getUsername());
         writer.writeAttribute("Orario",o);
         writer.writeAttribute("Campo",c);
@@ -117,18 +122,17 @@ void CircoloTennistico::savePrenotazioni(CalendarioGiornaliero* cal) const{
 
 CircoloTennistico::~CircoloTennistico(){
     loggedIn=0;
-    saveIscritti(&i);
+    saveIscritti(i);
+    savePrenotazioni(c);
     //richiama inplicitamente i distruttori ridefiniti di Iscritti e CalendarioGiornaliero
 }
 
 void CircoloTennistico::iscriviGiocatore(QString u,QString p){
-    if(!i.trovaUtente(u))
-        i.iscrivi(new Giocatore(u,p));
+    i->iscrivi(new Giocatore(u,p));
 }
 
 void CircoloTennistico::iscriviMaestro(QString u,QString p){
-    if(!i.trovaUtente(u))
-        i.iscrivi(new Maestro(u,p));
+    i->iscrivi(new Maestro(u,p));
 }
 
 void CircoloTennistico::eliminaIscrizione(Utente* u){
@@ -138,30 +142,34 @@ void CircoloTennistico::eliminaIscrizione(Utente* u){
         if(u==loggedIn)
             loggedIn=0;
         if(dynamic_cast<Maestro*>(u)){  // un maestro quando si disiscrive lascia le lezioni che aveva a carico ai colleghi maestri ancora iscritti, se è l'ultimo maestro rimanente annullo tutte le lezioni
-            if(i.contaMaestri()==1){
-                c.eliminaTutteLezioni();
+            if(i->contaMaestri()==1){
+                c->eliminaTutteLezioni();
                 qDebug()<<"flag";
             }
             else{
-                Utente* temp=i.trovaMaestroDiverso(u); //ho almeno 1 maestro a cui affidare le lezioni da coprire
-                c.sostiuisciMaestro(u,temp);
+                Utente* temp=i->trovaMaestroDiverso(u); //ho almeno 1 maestro a cui affidare le lezioni da coprire
+                c->sostiuisciMaestro(u,temp);
             }
-            i.eliminaUtente(u);
+            i->eliminaUtente(u);
         }
         else if(dynamic_cast<Giocatore*>(u)){  //un giocatore quando si disiscrive annulla automaticamente le partite che aveva prenotato a suo nome
-            c.eliminaPartiteGiocatore(u);
-            i.eliminaUtente(u);
+            c->eliminaPartiteGiocatore(u);
+            i->eliminaUtente(u);
         }
         //altri if per evenuali altri tipi derivati da utente successivamente difiniti
     }
 }
 
 void CircoloTennistico::Prenota(Orario o){
-    c.prenotaOra(loggedIn,o);
+    c->prenotaOra(loggedIn,o);
 }
 
 void CircoloTennistico::scorri() const {
-    for(list<Utente*>::const_iterator it=i.l.begin();it!=i.l.end();++it)
+    for(list<Utente*>::const_iterator it=i->l.begin();it!=i->l.end();++it)
         qDebug()<<(*it)->getUsername();
-
 }
+
+void CircoloTennistico::inizioGiornata(){
+    c->clear();
+}
+

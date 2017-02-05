@@ -2,7 +2,7 @@
 
 double OradiTennis::quotaFissa=5.00;
 
-double OradiTennis::quotaLuce=1.00;
+double OradiTennis::quotaLuce=2.00;
 
 OradiTennis::OradiTennis(Utente* u, Campo d, Orario p):user(u), c(d), o(p){
     luce=((o>=inizioLuce) ? true : false);

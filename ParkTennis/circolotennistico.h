@@ -15,14 +15,13 @@ using namespace std;
 class CircoloTennistico
 {
 public:
-    CircoloTennistico();
     ~CircoloTennistico();
-    CalendarioGiornaliero c;
-    static Iscritti i;
-    Utente* loggedIn;
-    void tryLogIn(QString u, QString p);
+    static CalendarioGiornaliero* c;
+    static Iscritti* i;
+    static Utente* loggedIn;
+    static void tryLogIn(QString u, QString p);
     static Iscritti* loadIscrizioni();
-    CalendarioGiornaliero* loadPrenotazioni();
+    static CalendarioGiornaliero* loadPrenotazioni();
     void saveIscritti(Iscritti*) const;
     void savePrenotazioni(CalendarioGiornaliero*) const;
     static void iscriviGiocatore(QString ,QString ="12345");
@@ -31,6 +30,7 @@ public:
     void eliminaIscrizione(Utente*); //comportamente diverso in base al tipo di Utente che si vuole disiscrivere
     void Prenota(Orario);
     void scorri()const;
+    void inizioGiornata();
 };
 
 #endif // CIRCOLOTENNISTICO_H
