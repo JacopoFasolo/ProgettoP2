@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     orario.cpp \
     utente.cpp \
     circolotennistico.cpp \
-    loginwindow.cpp
+    loginwindow.cpp \
+    pannelloutente.cpp
 
 HEADERS  += \
     oraditennis.h \
@@ -41,8 +42,5 @@ HEADERS  += \
     orario.h \
     utente.h \
     circolotennistico.h \
-    loginwindow.h
-
-
-FORMS    += \
-    loginwindow.ui
+    loginwindow.h \
+    pannelloutente.h

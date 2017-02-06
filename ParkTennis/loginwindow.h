@@ -22,7 +22,6 @@ public:
     ~LoginWindow();
 
 private:
-    Ui::LoginWindow *ui;
     QLineEdit* txtUsername;
     QLineEdit* txtPassword;
     QPushButton* btnAccedi;

@@ -34,6 +34,7 @@ public:
     bool nessunaPrenotazione() const;
     void prenotaOra(Utente*, Orario);
     void eliminaPrenotazione(OradiTennis*);
+    void eliminaPrenotazione(Utente*,Orario,Campo);
     void eliminaPartiteGiocatore(Utente*);
     void eliminaTutteLezioni();
     int contaPartite() const;

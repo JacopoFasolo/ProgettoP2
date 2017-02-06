@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Iscritti>
-    <Utente tipo="Admin" Username="Admin" Password="12345"/>
-    <Utente tipo="Giocatore" Username="francesco" Password="123456"/>
-</Iscritti>

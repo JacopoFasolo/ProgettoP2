@@ -1,11 +1,8 @@
 #include "loginwindow.h"
-#include "ui_loginwindow.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::LoginWindow)
+    QWidget(parent)
 {
-    ui->setupUi(this);
     setFixedSize(300,400);
     move(500,150);
     setWindowTitle("ParkTennis - Login");
@@ -35,10 +32,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     connect(btnRegistrati,SIGNAL(clicked()),this,SLOT(Registra()));
 }
 
-LoginWindow::~LoginWindow()
-{
-    delete ui;
-}
+LoginWindow::~LoginWindow(){}
 
 void LoginWindow::testLogin() {
     try{

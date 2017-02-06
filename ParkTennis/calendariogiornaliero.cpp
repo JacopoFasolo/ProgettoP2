@@ -119,6 +119,22 @@ void CalendarioGiornaliero::eliminaPrenotazione(OradiTennis* o){
     }
 }
 
+void CalendarioGiornaliero::eliminaPrenotazione(Utente* u,Orario o,Campo c){
+    if(u){
+        bool eliminato=false;
+        list<OradiTennis*>::iterator it=l.begin();
+        for(;it!=l.end() && !eliminato;++it){
+            if((*it)->getUtente()==u && (*it)->getOrario()==o && (*it)->getCampo()==c){
+                scalaSuccessive(*it);
+                delete *it;
+                it=l.erase(it);
+                --it;
+                eliminato=true;
+            }
+        }
+    }
+}
+
 void CalendarioGiornaliero::eliminaPartiteGiocatore(Utente* u) {
     if(u){
         list<OradiTennis*>::iterator it=l.begin();

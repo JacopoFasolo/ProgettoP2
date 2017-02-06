@@ -1,4 +1,5 @@
 #include "loginwindow.h"
+#include <pannelloutente.h>
 #include <circolotennistico.h>
 #include <QApplication>
 #include <QDebug>
@@ -10,7 +11,8 @@ int main(int argc, char *argv[])
 {
     CircoloTennistico* cir=new CircoloTennistico;
     QApplication a(argc, argv);
-    LoginWindow w;
+    PannelloUtente w;
+
     w.show();
 
 
