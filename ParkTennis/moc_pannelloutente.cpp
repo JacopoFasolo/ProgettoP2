@@ -22,7 +22,7 @@ static const uint qt_meta_data_PannelloUtente[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,6 +36,7 @@ static const uint qt_meta_data_PannelloUtente[] = {
       67,   15,   15,   15, 0x0a,
       92,   15,   15,   15, 0x0a,
      111,   15,   15,   15, 0x0a,
+     129,   15,   15,   15, 0x0a,
 
        0        // eod
 };
@@ -44,7 +45,7 @@ static const char qt_meta_stringdata_PannelloUtente[] = {
     "PannelloUtente\0\0showTime()\0"
     "btnPrenotaclicked()\0btnEliminaclicked()\0"
     "btnDisiscriviticlicked()\0btnLogOutclicked()\0"
-    "aggiornaTabella()\0"
+    "aggiornaTabella()\0setuptblPrenotazioni()\0"
 };
 
 void PannelloUtente::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -59,6 +60,7 @@ void PannelloUtente::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 3: _t->btnDisiscriviticlicked(); break;
         case 4: _t->btnLogOutclicked(); break;
         case 5: _t->aggiornaTabella(); break;
+        case 6: _t->setuptblPrenotazioni(); break;
         default: ;
         }
     }
@@ -97,9 +99,9 @@ int PannelloUtente::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     }
     return _id;
 }

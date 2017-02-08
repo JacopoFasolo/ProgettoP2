@@ -40,7 +40,9 @@ void LoginWindow::testLogin() {
         QString p=txtPassword->text();
         CircoloTennistico::tryLogIn(u,p);
         //devo chiamare
-        QMessageBox::information(0,"OK","Andata Bene");
+        //QMessageBox::information(0,"OK","Andata Bene");
+        PannelloUtente* pu=new PannelloUtente();
+        pu->show();
     }
     catch(QString x){
         QMessageBox::critical(0,"Errore Login",x);

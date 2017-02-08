@@ -84,8 +84,8 @@ void CircoloTennistico::saveIscritti(Iscritti* is) const {
         if(dynamic_cast<Giocatore*>(*it))
             writer.writeAttribute("tipo","Giocatore");
         if(dynamic_cast<Maestro*>(*it))
-        //da aggiungere eventuali altri sottotipi di Utente
             writer.writeAttribute("tipo","Maestro");
+        //da aggiungere eventuali altri sottotipi di Utente
         writer.writeAttribute("Username",(*it)->getUsername());
         writer.writeAttribute("Password",(*it)->getPassword());
         writer.writeEndElement();
@@ -120,10 +120,12 @@ void CircoloTennistico::savePrenotazioni(CalendarioGiornaliero* cal) const{
     writer.writeEndDocument();
 }
 
-CircoloTennistico::~CircoloTennistico(){
+CircoloTennistico::~CircoloTennistico() {
     loggedIn=0;
     saveIscritti(i);
     savePrenotazioni(c);
+    c->clear();
+    i->clear();
     //richiama inplicitamente i distruttori ridefiniti di Iscritti e CalendarioGiornaliero
 }
 

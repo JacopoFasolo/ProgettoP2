@@ -8,6 +8,7 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QRadioButton>
+#include <pannelloutente.h>
 
 namespace Ui {
 class LoginWindow;

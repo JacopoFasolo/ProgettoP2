@@ -13,6 +13,7 @@
 #include <QFrame>
 #include <QTimer>
 #include <QMessageBox>
+#include <QHeaderView>
 
 class PannelloUtente : public QWidget
 {
@@ -59,6 +60,7 @@ public slots:
     void btnDisiscriviticlicked();
     void btnLogOutclicked();
     void aggiornaTabella();
+    void setuptblPrenotazioni();
 };
 
 #endif // PANNELLOUTENTE_H

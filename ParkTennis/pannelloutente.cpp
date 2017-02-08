@@ -91,10 +91,7 @@ PannelloUtente::PannelloUtente(QWidget *parent) : QWidget(parent)
     tblPrenotazioni=new QTableWidget(this);
     tblPrenotazioni->setGeometry(200,70,685,544);
     tblPrenotazioni->setColumnCount(4);
-    QStringList titoli;
-    titoli<<"Username"<<"Ora"<<"Campo"<<"Luce";
-    tblPrenotazioni->setHorizontalHeaderLabels(titoli);
-    aggiornaTabella();
+    setuptblPrenotazioni();
 }
 
 void PannelloUtente::showTime(){
@@ -162,5 +159,14 @@ void PannelloUtente::aggiornaTabella(){
     }
     else
         tblPrenotazioni->setRowCount(0);
+}
+
+void PannelloUtente::setuptblPrenotazioni(){
+    QStringList titoli;
+    titoli<<"Username"<<"Ora"<<"Campo"<<"Luce";
+    tblPrenotazioni->setHorizontalHeaderLabels(titoli);
+    tblPrenotazioni->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    aggiornaTabella();
+
 }
 
