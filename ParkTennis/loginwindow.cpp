@@ -41,8 +41,14 @@ void LoginWindow::testLogin() {
         CircoloTennistico::tryLogIn(u,p);
         //devo chiamare
         //QMessageBox::information(0,"OK","Andata Bene");
-        PannelloUtente* pu=new PannelloUtente();
-        pu->show();
+        PannelloUtente* pu;
+        if(dynamic_cast<Giocatore*>(CircoloTennistico::loggedIn))
+            pu=new PannelloGiocatore();
+        if(dynamic_cast<Maestro*>(CircoloTennistico::loggedIn))
+            pu=new PannelloMaestro();
+        if(dynamic_cast<Admin*>(CircoloTennistico::loggedIn))
+            pu=new PannelloAdmin();
+        pu->exec();
     }
     catch(QString x){
         QMessageBox::critical(0,"Errore Login",x);

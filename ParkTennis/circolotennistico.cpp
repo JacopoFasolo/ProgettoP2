@@ -166,11 +166,6 @@ void CircoloTennistico::Prenota(Orario o){
     c->prenotaOra(loggedIn,o);
 }
 
-void CircoloTennistico::scorri() const {
-    for(list<Utente*>::const_iterator it=i->l.begin();it!=i->l.end();++it)
-        qDebug()<<(*it)->getUsername();
-}
-
 void CircoloTennistico::inizioGiornata(){
     c->clear();
 }

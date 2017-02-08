@@ -14,12 +14,13 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QHeaderView>
+#include <QDialog>
 
-class PannelloUtente : public QWidget
+class PannelloUtente : public QDialog
 {
     Q_OBJECT
 public:
-    explicit PannelloUtente(QWidget* parent = 0);
+    explicit PannelloUtente(QDialog* parent = 0);
 
 signals:
 
@@ -55,9 +56,9 @@ protected:
 
 public slots:
     void showTime();
-    void btnPrenotaclicked();
-    void btnEliminaclicked();
-    void btnDisiscriviticlicked();
+    virtual void btnPrenotaclicked();
+    virtual void btnEliminaclicked();
+    virtual void btnDisiscriviticlicked();
     void btnLogOutclicked();
     void aggiornaTabella();
     void setuptblPrenotazioni();

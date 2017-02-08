@@ -27,7 +27,10 @@ SOURCES += main.cpp\
     utente.cpp \
     circolotennistico.cpp \
     loginwindow.cpp \
-    pannelloutente.cpp
+    pannelloutente.cpp \
+    pannellogiocatore.cpp \
+    pannellomaestro.cpp \
+    pannelloadmin.cpp
 
 HEADERS  += \
     oraditennis.h \
@@ -43,4 +46,7 @@ HEADERS  += \
     utente.h \
     circolotennistico.h \
     loginwindow.h \
-    pannelloutente.h
+    pannelloutente.h \
+    pannellogiocatore.h \
+    pannellomaestro.h \
+    pannelloadmin.h

@@ -9,6 +9,9 @@
 #include <QMessageBox>
 #include <QRadioButton>
 #include <pannelloutente.h>
+#include <pannellogiocatore.h>
+#include <pannellomaestro.h>
+#include <pannelloadmin.h>
 
 namespace Ui {
 class LoginWindow;

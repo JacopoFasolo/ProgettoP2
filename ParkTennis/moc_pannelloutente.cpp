@@ -72,7 +72,7 @@ const QMetaObjectExtraData PannelloUtente::staticMetaObjectExtraData = {
 };
 
 const QMetaObject PannelloUtente::staticMetaObject = {
-    { &QWidget::staticMetaObject, qt_meta_stringdata_PannelloUtente,
+    { &QDialog::staticMetaObject, qt_meta_stringdata_PannelloUtente,
       qt_meta_data_PannelloUtente, &staticMetaObjectExtraData }
 };
 
@@ -90,12 +90,12 @@ void *PannelloUtente::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_PannelloUtente))
         return static_cast<void*>(const_cast< PannelloUtente*>(this));
-    return QWidget::qt_metacast(_clname);
+    return QDialog::qt_metacast(_clname);
 }
 
 int PannelloUtente::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QWidget::qt_metacall(_c, _id, _a);
+    _id = QDialog::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

@@ -29,7 +29,6 @@ public:
     //altre iscrivi se vengono aggiunti altri sottotipi di Utente
     static void eliminaIscrizione(Utente*); //comportamente diverso in base al tipo di Utente che si vuole disiscrivere
     static void Prenota(Orario);
-    void scorri()const;
     void inizioGiornata();
 };
 

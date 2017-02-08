@@ -1,6 +1,6 @@
 #include "pannelloutente.h"
 
-PannelloUtente::PannelloUtente(QWidget *parent) : QWidget(parent)
+PannelloUtente::PannelloUtente(QDialog *parent) : QDialog(parent)
 {
 
     QTimer* timer=new QTimer(this);
@@ -90,7 +90,7 @@ PannelloUtente::PannelloUtente(QWidget *parent) : QWidget(parent)
     //tabella
     tblPrenotazioni=new QTableWidget(this);
     tblPrenotazioni->setGeometry(200,70,685,544);
-    tblPrenotazioni->setColumnCount(4);
+    tblPrenotazioni->setColumnCount(5);
     setuptblPrenotazioni();
 }
 
@@ -105,16 +105,15 @@ void PannelloUtente::btnPrenotaclicked(){
         try{
             Orario o=spnPrenota->value();
             CircoloTennistico::Prenota(o);
-            QMessageBox::information(this,"Prenotazione Effettutata","Prenotazione effettuata con Successo");
             lneCountPartite->setText(QString::number(CircoloTennistico::c->contaPartite()));
             lneCountLezioni->setText(QString::number(CircoloTennistico::c->contaLezioni()));
             aggiornaTabella();
+            QMessageBox::information(this,"Prenotazione Effettutata","Prenotazione effettuata con Successo");
         }
         catch(QString x){
             QMessageBox::critical(this,"Errore Prenotazione",x);
         }
     }
-    else QMessageBox::critical(this,"Errore Prenotazione",QString(spnPrenota->value()));
 }
 
 void PannelloUtente::btnEliminaclicked(){
@@ -150,11 +149,16 @@ void PannelloUtente::aggiornaTabella(){
         for(list<OradiTennis*>::iterator it=CircoloTennistico::c->l.begin();it!=CircoloTennistico::c->l.end();++it){
             int count=tblPrenotazioni->rowCount();
             tblPrenotazioni->insertRow(count);
-            tblPrenotazioni->setItem(count,0,new QTableWidgetItem((*it)->getUtente()->getUsername()));
-            tblPrenotazioni->setItem(count,1,new QTableWidgetItem(QString::number((*it)->getOrario().getOra())));
-            tblPrenotazioni->setItem(count,2,new QTableWidgetItem(QString::number((*it)->getCampo().getNumero())));
+            if(dynamic_cast<Partita*>(*it))
+                tblPrenotazioni->setItem(count,0,new QTableWidgetItem("Partita"));
+            if(dynamic_cast<Lezione*>(*it))
+                tblPrenotazioni->setItem(count,1,new QTableWidgetItem("Lezione"));
+            //altri if in base al tipo
+            tblPrenotazioni->setItem(count,1,new QTableWidgetItem((*it)->getUtente()->getUsername()));
+            tblPrenotazioni->setItem(count,2,new QTableWidgetItem(QString::number((*it)->getOrario().getOra())));
+            tblPrenotazioni->setItem(count,3,new QTableWidgetItem(QString::number((*it)->getCampo().getNumero())));
             if((*it)->getLuce())
-                tblPrenotazioni->setItem(count,3, new QTableWidgetItem(QString("Attiva")));
+                tblPrenotazioni->setItem(count,4, new QTableWidgetItem(QString("Attiva")));
         }
     }
     else
@@ -163,7 +167,7 @@ void PannelloUtente::aggiornaTabella(){
 
 void PannelloUtente::setuptblPrenotazioni(){
     QStringList titoli;
-    titoli<<"Username"<<"Ora"<<"Campo"<<"Luce";
+    titoli<<"Tipo"<<"Username"<<"Ora"<<"Campo"<<"Luce";
     tblPrenotazioni->setHorizontalHeaderLabels(titoli);
     tblPrenotazioni->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     aggiornaTabella();
