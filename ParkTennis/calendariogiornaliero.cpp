@@ -116,6 +116,8 @@ void CalendarioGiornaliero::eliminaPrenotazione(OradiTennis* o){
                 eliminato=true;
             }
         }
+        if(!eliminato)
+            throw QString("Ora non Prenotata");
     }
 }
 
@@ -132,7 +134,25 @@ void CalendarioGiornaliero::eliminaPrenotazione(Utente* u,Orario o,Campo c){
                 eliminato=true;
             }
         }
+        if(!eliminato)
+            throw QString("Ora non Prenotata");
     }
+}
+
+void CalendarioGiornaliero::AdminEliminaPrenotazione(Orario o,Campo c){
+    bool eliminato=false;
+    list<OradiTennis*>::iterator it=l.begin();
+    for(;it!=l.end() && !eliminato;++it){
+        if((*it)->getOrario()==o && (*it)->getCampo()==c){
+            scalaSuccessive(*it);
+            delete *it;
+            it=l.erase(it);
+            --it;
+            eliminato=true;
+        }
+    }
+    if(!eliminato)
+        throw QString("Ora non Prenotata");
 }
 
 void CalendarioGiornaliero::eliminaPartiteGiocatore(Utente* u) {

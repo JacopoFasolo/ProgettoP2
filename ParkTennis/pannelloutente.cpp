@@ -26,22 +26,48 @@ PannelloUtente::PannelloUtente(QWidget *parent) : QWidget(parent)
     btnPrenota=new QPushButton(tr("Prenota"),frmPrenota);
     btnPrenota->setGeometry(15,55,140,30);
     btnPrenota->setCursor(QCursor(Qt::PointingHandCursor));
+    connect(btnPrenota,SIGNAL(clicked()),this,SLOT(btnPrenotaclicked()));
+
+    //sezione elimina
+    lblElimina=new QLabel("Elimina Prenotazione",this);
+    lblElimina->setGeometry(15,145,170,20);
+    frmElimina=new QFrame(this);
+    frmElimina->setGeometry(15,170,170,130);
+    frmElimina->setFrameShadow(QFrame::Raised);
+    frmElimina->setFrameShape(QFrame::StyledPanel);
+    lblEliminaOrario=new QLabel("Orario :",frmElimina);
+    lblEliminaOrario->setGeometry(15,15,60,20);
+    spnEliminaOrario=new QSpinBox(frmElimina);
+    spnEliminaOrario->setGeometry(80,13,75,25);
+    spnEliminaOrario->setRange(CircoloTennistico::c->getApertura().getOra(),CircoloTennistico::c->getUltimaOra().getOra());
+    lblEliminaCampo=new QLabel("Campo :",frmElimina);
+    lblEliminaCampo->setGeometry(15,50,60,20);
+    spnEliminaCampo=new QSpinBox(frmElimina);
+    spnEliminaCampo->setGeometry(80,48,75,25);
+    spnEliminaCampo->setRange(1,CircoloTennistico::c->getNumCampi());
+    btnElimina=new QPushButton(tr("Eimina"),frmElimina);
+    btnElimina->setGeometry(15,83,140,30);
+    btnElimina->setCursor(QCursor(Qt::PointingHandCursor));
+    connect(btnElimina,SIGNAL(clicked()),this,SLOT(btnEliminaclicked()));
+
 
     //sezione statistiche
     lblStat=new QLabel("Statistiche",this);
-    lblStat->setGeometry(15,150,170,20);
+    lblStat->setGeometry(15,360,170,20);
     frmStat=new QFrame(this);
-    frmStat->setGeometry(15,175,170,150);
+    frmStat->setGeometry(15,385,170,140);
     frmStat->setFrameShadow(QFrame::Raised);
     frmStat->setFrameShape(QFrame::StyledPanel);
     lblCountPartite=new QLabel("Numero Partite :",frmStat);
-    lblCountPartite->setGeometry(15,15,140,20);
+    lblCountPartite->setGeometry(15,10,140,20);
     lneCountPartite=new QLineEdit(frmStat);
-    lneCountPartite->setGeometry(15,40,140,30);
+    lneCountPartite->setGeometry(15,35,140,30);
     lblCountLezioni=new QLabel("Numero Lezioni :",frmStat);
-    lblCountLezioni->setGeometry(15,80,140,20);
+    lblCountLezioni->setGeometry(15,70,140,20);
     lneCountLezioni=new QLineEdit(frmStat);
-    lneCountLezioni->setGeometry(15,105,140,30);
+    lneCountLezioni->setGeometry(15,95,140,30);
+    lneCountPartite->setText(QString::number(CircoloTennistico::c->contaPartite()));
+    lneCountLezioni->setText(QString::number(CircoloTennistico::c->contaLezioni()));
 
     //sezione logout disiscriviti
     btnDisiscriviti=new QPushButton(tr("Disiscriviti"),this);
@@ -50,6 +76,8 @@ PannelloUtente::PannelloUtente(QWidget *parent) : QWidget(parent)
     btnLogOut=new QPushButton(tr("Log Out"),this);
     btnLogOut->setGeometry(15,585,170,30);
     btnLogOut->setCursor(QCursor(Qt::PointingHandCursor));
+    connect(btnDisiscriviti,SIGNAL(clicked()),this,SLOT(btnDisiscriviticlicked()));
+    connect(btnLogOut,SIGNAL(clicked()),this,SLOT(btnLogOutclicked()));
 
     //sezione orario
     lblOrario=new QLabel("Orario :",this);
@@ -62,12 +90,77 @@ PannelloUtente::PannelloUtente(QWidget *parent) : QWidget(parent)
     //tabella
     tblPrenotazioni=new QTableWidget(this);
     tblPrenotazioni->setGeometry(200,70,685,544);
-
+    tblPrenotazioni->setColumnCount(4);
+    QStringList titoli;
+    titoli<<"Username"<<"Ora"<<"Campo"<<"Luce";
+    tblPrenotazioni->setHorizontalHeaderLabels(titoli);
+    aggiornaTabella();
 }
 
 void PannelloUtente::showTime(){
     QTime time= QTime::currentTime();
     QString time_text=time.toString("hh:mm:ss");
     lcdOrario->display(time_text);
+}
+
+void PannelloUtente::btnPrenotaclicked(){
+    if(CircoloTennistico::loggedIn && !dynamic_cast<Admin*>(CircoloTennistico::loggedIn)){
+        try{
+            Orario o=spnPrenota->value();
+            CircoloTennistico::Prenota(o);
+            QMessageBox::information(this,"Prenotazione Effettutata","Prenotazione effettuata con Successo");
+            lneCountPartite->setText(QString::number(CircoloTennistico::c->contaPartite()));
+            lneCountLezioni->setText(QString::number(CircoloTennistico::c->contaLezioni()));
+            aggiornaTabella();
+        }
+        catch(QString x){
+            QMessageBox::critical(this,"Errore Prenotazione",x);
+        }
+    }
+    else QMessageBox::critical(this,"Errore Prenotazione",QString(spnPrenota->value()));
+}
+
+void PannelloUtente::btnEliminaclicked(){
+    if(CircoloTennistico::loggedIn && !dynamic_cast<Admin*>(CircoloTennistico::loggedIn)){
+        Orario o=spnEliminaOrario->value();
+        Campo c=spnEliminaCampo->value();
+        try{
+            CircoloTennistico::c->eliminaPrenotazione(CircoloTennistico::loggedIn,o,c);
+            lneCountPartite->setText(QString::number(CircoloTennistico::c->contaPartite()));
+            lneCountLezioni->setText(QString::number(CircoloTennistico::c->contaLezioni()));
+            QMessageBox::information(this,"Prenotazione Eliminata","Prenotazione Eliminata con Successo");
+            aggiornaTabella();
+        }
+        catch(QString x){
+            QMessageBox::critical(this,"Errore eliminazione",x);
+        }
+    }
+}
+
+void PannelloUtente::btnDisiscriviticlicked(){
+    CircoloTennistico::eliminaIscrizione(CircoloTennistico::loggedIn);
+    close();
+}
+
+void PannelloUtente::btnLogOutclicked(){
+    CircoloTennistico::loggedIn=0;
+    close();
+}
+
+void PannelloUtente::aggiornaTabella(){
+    if(!CircoloTennistico::c->nessunaPrenotazione()){
+        tblPrenotazioni->setRowCount(0);
+        for(list<OradiTennis*>::iterator it=CircoloTennistico::c->l.begin();it!=CircoloTennistico::c->l.end();++it){
+            int count=tblPrenotazioni->rowCount();
+            tblPrenotazioni->insertRow(count);
+            tblPrenotazioni->setItem(count,0,new QTableWidgetItem((*it)->getUtente()->getUsername()));
+            tblPrenotazioni->setItem(count,1,new QTableWidgetItem(QString::number((*it)->getOrario().getOra())));
+            tblPrenotazioni->setItem(count,2,new QTableWidgetItem(QString::number((*it)->getCampo().getNumero())));
+            if((*it)->getLuce())
+                tblPrenotazioni->setItem(count,3, new QTableWidgetItem(QString("Attiva")));
+        }
+    }
+    else
+        tblPrenotazioni->setRowCount(0);
 }
 

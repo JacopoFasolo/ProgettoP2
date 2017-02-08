@@ -31,3 +31,6 @@ Campo OradiTennis::getCampo() const {return c;}
 
 Orario OradiTennis::getOrario() const {return o;}
 
+bool OradiTennis::getLuce() const {return luce;}
+
+

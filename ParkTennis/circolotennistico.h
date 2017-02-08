@@ -27,8 +27,8 @@ public:
     static void iscriviGiocatore(QString ,QString ="12345");
     static void iscriviMaestro(QString ,QString ="12345");
     //altre iscrivi se vengono aggiunti altri sottotipi di Utente
-    void eliminaIscrizione(Utente*); //comportamente diverso in base al tipo di Utente che si vuole disiscrivere
-    void Prenota(Orario);
+    static void eliminaIscrizione(Utente*); //comportamente diverso in base al tipo di Utente che si vuole disiscrivere
+    static void Prenota(Orario);
     void scorri()const;
     void inizioGiornata();
 };

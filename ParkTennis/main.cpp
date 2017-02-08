@@ -9,10 +9,12 @@ CircoloTennistico cir;
 
 int main(int argc, char *argv[])
 {
-    CircoloTennistico* cir=new CircoloTennistico;
     QApplication a(argc, argv);
     PannelloUtente w;
 
+    CircoloTennistico::iscriviGiocatore("Giorgio","12345");
+    CircoloTennistico::tryLogIn("Giorgio","12345");
+    //CircoloTennistico::Prenota(8);
     w.show();
 
 

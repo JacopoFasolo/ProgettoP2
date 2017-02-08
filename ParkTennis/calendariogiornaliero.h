@@ -18,6 +18,7 @@ using std::list;
 
 class CalendarioGiornaliero{
 friend class CircoloTennistico;
+friend class PannelloUtente;
 private:
     list<OradiTennis*> l;
     static Orario apertura;
@@ -35,6 +36,7 @@ public:
     void prenotaOra(Utente*, Orario);
     void eliminaPrenotazione(OradiTennis*);
     void eliminaPrenotazione(Utente*,Orario,Campo);
+    void AdminEliminaPrenotazione(Orario,Campo);
     void eliminaPartiteGiocatore(Utente*);
     void eliminaTutteLezioni();
     int contaPartite() const;

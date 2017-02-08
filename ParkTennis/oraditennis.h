@@ -29,6 +29,7 @@ public:
     Utente* getUtente() const;
     Orario getOrario() const;
     Campo getCampo() const;
+    bool getLuce() const;
 
 
 
