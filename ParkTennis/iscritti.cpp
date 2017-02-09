@@ -77,7 +77,6 @@ list<Utente*> Iscritti::trovaMaestri() const{  //c++11
 int Iscritti::contaMaestri() const{  //c++11
     int count=0;
     for(list<Utente*>::const_iterator it=l.begin();it!=l.end();++it){
-        qDebug()<<(*it)->getUsername();
         if(dynamic_cast<Maestro*>(*it))
             count++;
     }

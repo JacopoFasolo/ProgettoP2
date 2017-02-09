@@ -152,7 +152,7 @@ void PannelloUtente::aggiornaTabella(){
             if(dynamic_cast<Partita*>(*it))
                 tblPrenotazioni->setItem(count,0,new QTableWidgetItem("Partita"));
             if(dynamic_cast<Lezione*>(*it))
-                tblPrenotazioni->setItem(count,1,new QTableWidgetItem("Lezione"));
+                tblPrenotazioni->setItem(count,0,new QTableWidgetItem("Lezione"));
             //altri if in base al tipo
             tblPrenotazioni->setItem(count,1,new QTableWidgetItem((*it)->getUtente()->getUsername()));
             tblPrenotazioni->setItem(count,2,new QTableWidgetItem(QString::number((*it)->getOrario().getOra())));

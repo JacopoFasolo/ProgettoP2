@@ -146,7 +146,6 @@ void CircoloTennistico::eliminaIscrizione(Utente* u){
         if(dynamic_cast<Maestro*>(u)){  // un maestro quando si disiscrive lascia le lezioni che aveva a carico ai colleghi maestri ancora iscritti, se è l'ultimo maestro rimanente annullo tutte le lezioni
             if(i->contaMaestri()==1){
                 c->eliminaTutteLezioni();
-                qDebug()<<"flag";
             }
             else{
                 Utente* temp=i->trovaMaestroDiverso(u); //ho almeno 1 maestro a cui affidare le lezioni da coprire

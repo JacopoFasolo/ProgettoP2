@@ -79,12 +79,16 @@ void PannelloAdmin::btnDisiscriviticlicked(){
     else{
         Utente* u=CircoloTennistico::i->trovaUtente(lneDisiscrivi->text());
         try{
-            CircoloTennistico::eliminaIscrizione(u);
-            aggiornaTabella();
-            lneCountPartite->setText(QString::number(CircoloTennistico::c->contaPartite()));
-            lneCountLezioni->setText(QString::number(CircoloTennistico::c->contaLezioni()));
-            lneGuadagno->setText(QString::number(CircoloTennistico::c->guadagnoGiornaliero()));
-            QMessageBox::information(this,"Disiscrizione Riuscita","Disiscrizione effettuata con Successo");
+            if(u){
+                CircoloTennistico::eliminaIscrizione(u);
+                aggiornaTabella();
+                lneCountPartite->setText(QString::number(CircoloTennistico::c->contaPartite()));
+                lneCountLezioni->setText(QString::number(CircoloTennistico::c->contaLezioni()));
+                lneGuadagno->setText(QString::number(CircoloTennistico::c->guadagnoGiornaliero()));
+                QMessageBox::information(this,"Disiscrizione Riuscita","Disiscrizione effettuata con Successo");
+            }
+            else
+                QMessageBox::critical(this,"Errore Disiscrizione","Utente non Registrato");
         }
         catch(QString x){
             QMessageBox::critical(this,"Errore",x);
